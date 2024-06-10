@@ -47,9 +47,7 @@ export const GeneratePage = () => {
           Generator tag
         </h2>
         <p className="mb-4 text-md text-gray-500 dark:text-gray-400">
-          Learn how to customize text-related styles and properties such as font
-          size, font style, text decoration, font weight and more using Tailwind
-          CSS classes
+          Complete the form and get yours meta tags.
         </p>
       </div>
       <div className="flex w-full gap-3">
