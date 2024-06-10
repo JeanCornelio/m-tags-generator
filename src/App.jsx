@@ -1,6 +1,8 @@
 import { MetaRouter } from "./Routes";
 
+
 export function App() {
+
   return (
     <main className="h-screen flex flex-col ">
       <nav className="w-full sticky bg-white dark:bg-slate-900 h-20 flex">
