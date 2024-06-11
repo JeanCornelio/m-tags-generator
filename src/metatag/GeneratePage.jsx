@@ -1,21 +1,26 @@
 import { useFormik } from "formik";
-import { Button, Modal } from "../components";
+import { Modal } from "../components";
+import { useState } from "react";
 
 export const GeneratePage = () => {
+  const [formData, setformData] = useState(null);
+  const [statusModal, setStatusModal] = useState(false);
+
+  const changeStatusModal = (value) => {
+    setStatusModal(!value);
+  };
+
   const validate = (values) => {
     const errors = {};
     if (!values.siteTitle) {
       errors.siteTitle = "Required";
     }
-
     if (!values.siteDescription) {
       errors.siteDescription = "Required";
     }
-
     if (!values.siteKeywords) {
       errors.siteKeywords = "Required";
     }
-
     return errors;
   };
 
@@ -24,22 +29,22 @@ export const GeneratePage = () => {
       siteTitle: "",
       siteDescription: "",
       siteKeywords: "",
-      siteRobotsIndex: "yes",
-      siteRobotsLinks: "yes",
+      siteRobotsIndex: true,
+      siteRobotsLinks: true,
       siteTypeContent: "utf-8",
       siteLanguage: "en",
       siteAuthor: "",
     },
     validate,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      setformData(values);
     },
   });
 
   return (
-    <div className=" mt-5 md:mt-10">
-      {/* Componetizar este titulo de componenten */}
-      <div className=" mb-8  dark:border-gray-800">
+    <div className="dark:bg-slate-900 h-full">
+ <div className="  container  mx-auto p-4 sm:px-6 mt-20 md:mt-0  md:px-8">
+      <div className="mb-8 border-b dark:border-gray-800">
         <h2
           className="inline-block mb-2 text-2xl font-semibold tracking-tight text-slate-700 dark:text-white"
           id="content"
@@ -50,14 +55,16 @@ export const GeneratePage = () => {
           Complete the form and get yours meta tags.
         </p>
       </div>
+
       <div className="flex w-full gap-3">
-        <div className="w-full ">
+        <div className="w-full">
           <form onSubmit={formik.handleSubmit}>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="mb-4 col-span-2">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Form Fields */}
+              <div className=" col-span-2">
                 <label
                   htmlFor="siteTitle"
-                  className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
+                  className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white"
                 >
                   Site title
                   <span
@@ -65,7 +72,7 @@ export const GeneratePage = () => {
                       formik.values.siteTitle.length > 70
                         ? "text-red-500"
                         : "text-gray-600"
-                    }  dark:text-white`}
+                    } dark:text-white`}
                   >
                     (Characters left: {70 - formik.values.siteTitle.length})
                   </span>
@@ -76,7 +83,6 @@ export const GeneratePage = () => {
                   ) : null}
                   <span className="text-red-500 ms-1">*</span>
                 </label>
-
                 <input
                   type="text"
                   name="siteTitle"
@@ -87,7 +93,7 @@ export const GeneratePage = () => {
                   placeholder="Site title must be within 70 Characters"
                 />
               </div>
-              <div className="mb-4  col-span-2 md:col-span-1">
+              <div className=" col-span-2 md:col-span-1 ">
                 <label
                   htmlFor="siteDescription"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white"
@@ -121,7 +127,7 @@ export const GeneratePage = () => {
                   className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                 ></textarea>
               </div>
-              <div className="mb-4 col-span-2 md:col-span-1">
+              <div className=" col-span-2 md:col-span-1">
                 <label
                   htmlFor="siteKeywords"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
@@ -145,7 +151,7 @@ export const GeneratePage = () => {
                   className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                 ></textarea>
               </div>
-              <div className="mb-4  col-span-2 md:col-span-1">
+              <div className="  col-span-2 md:col-span-1">
                 <label
                   htmlFor="siteRobotsIndex"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
@@ -156,17 +162,21 @@ export const GeneratePage = () => {
                 <select
                   id="siteRobotsIndex"
                   name="siteRobotsIndex"
-                  onChange={formik.handleChange}
+                  onChange={(e) =>
+                    formik.setFieldValue(
+                      "siteRobotsIndex",
+                      e.target.value === "true"
+                    )
+                  }
                   value={formik.values.siteRobotsIndex}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                 >
-                  <option selected value="true">
-                    Yes
-                  </option>
-                  <option value="false">No</option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </select>
               </div>
-              <div className="mb-4  col-span-2 md:col-span-1">
+
+              <div className="col-span-2 md:col-span-1">
                 <label
                   htmlFor="siteRobotsLinks"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
@@ -177,17 +187,20 @@ export const GeneratePage = () => {
                 <select
                   id="siteRobotsLinks"
                   name="siteRobotsLinks"
-                  onChange={formik.handleChange}
+                  onChange={(e) =>
+                    formik.setFieldValue(
+                      "siteRobotsLinks",
+                      e.target.value === "true"
+                    )
+                  }
                   value={formik.values.siteRobotsLinks}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                 >
-                  <option selected value="true">
-                    Yes
-                  </option>
-                  <option value="false">No</option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </select>
               </div>
-              <div className="mb-4  col-span-2 md:col-span-1">
+              <div className=" col-span-2 md:col-span-1">
                 <label
                   htmlFor="siteTypeContent"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
@@ -210,7 +223,7 @@ export const GeneratePage = () => {
                   <option value="windows-1252">WINDOWS-1252</option>
                 </select>
               </div>
-              <div className="mb-4  col-span-2 md:col-span-1">
+              <div className="  col-span-2 md:col-span-1">
                 <label
                   htmlFor="siteLanguage"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
@@ -233,12 +246,12 @@ export const GeneratePage = () => {
                   <option value="ru">Russian</option>
                 </select>
               </div>
-              <div className="mb-4 col-span-2 md:col-span-1">
+              <div className="col-span-2 md:col-span-1">
                 <label
                   htmlFor="siteAuthor"
                   className="block mb-2 text-sm font-semibold text-gray-600 dark:text-white "
                 >
-                  Site Author (Optional)
+                  Site author (Optional)
                 </label>
 
                 <input
@@ -251,19 +264,31 @@ export const GeneratePage = () => {
                   placeholder="Name's author"
                 />
               </div>
+              <div className="col-span-2 md:col-span-2">
+                <button
+                  disabled={!formik.isValid || !formik.dirty}
+                  data-modal-target="default-modal"
+                  data-modal-toggle="default-modal"
+                  type="submit"
+                  className="p-3 rounded-md cursor-pointer text-md font-semibold bg-indigo-600 enabled:hover:bg-indigo-700 text-white w-full md:w-48 mt-3 disabled:opacity-75 disabled:cursor-not-allowed"
+                >
+                  <div className="flex items-center gap-1 justify-center">
+                    <span className="icon-[grommet-icons--code] text-2xl" />{" "}
+                    Generate Code
+                  </div>
+                </button>
+              </div>
             </div>
-
-            <Button
-              title="Generate Code"
-              type="button"
-              
-              className="bg-indigo-600  hover:bg-indigo-700 text-white w-full  md:w-40 mt-3 "
-            />
-          
           </form>
         </div>
       </div>
-     {/*  <Modal /> */}
+      <Modal
+        handleModal={statusModal}
+        setHandleModal={changeStatusModal}
+        {...formData}
+      />
     </div>
+    </div>
+   
   );
 };
