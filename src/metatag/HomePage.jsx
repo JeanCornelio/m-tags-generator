@@ -5,7 +5,7 @@ export const HomePage = () => {
 
 
   return (
-    <>
+    <div className="container  mx-auto p-4 sm:px-6 mt-20 md:mt-0  md:px-8  ">
       <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#109_100%)] dark:[background:radial-gradient(125%_125%_at_50%_10%,#0F172A_40%,#104_100%)]"></div>
       <div className="flex justify-between gap-4 mt-28">
         <div className=" w-full  gap-10 flex flex-col items-center">
@@ -35,6 +35,6 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
