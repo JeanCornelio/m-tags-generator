@@ -17,7 +17,7 @@ export const MetaRouter = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/generate-page" element={<GeneratePage />} />
-      <Route path="/validate-page" element={<PreviewPage />} />
+      <Route path="/preview-page" element={<PreviewPage />} />
     </Routes>
   );
 };

@@ -26,9 +26,9 @@ export const HomePage = () => {
                 className="bg-indigo-600  hover:bg-indigo-700 text-white"
               />
             </Link>
-            <Link to="/validate-page">
+            <Link to="/preview-page">
               <Button
-                title="Validate tags"
+                title="Preview tag content"
                 className=" border border-indigo-600 text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
               />
             </Link>
