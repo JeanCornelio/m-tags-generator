@@ -1,14 +1,11 @@
 import { useFormik } from "formik";
-import { Modal } from "../components";
+import { Modal, Title } from "../components";
 import { useState } from "react";
+
 
 export const GeneratePage = () => {
   const [formData, setformData] = useState(null);
   const [statusModal, setStatusModal] = useState(false);
-
-  const changeStatusModal = (value) => {
-    setStatusModal(!value);
-  };
 
   const validate = (values) => {
     const errors = {};
@@ -42,20 +39,8 @@ export const GeneratePage = () => {
   });
 
   return (
-    <div className="dark:bg-slate-900 h-full">
- <div className="  container  mx-auto p-4 sm:px-6 mt-20 md:mt-0  md:px-8">
-      <div className="mb-8 border-b dark:border-gray-800">
-        <h2
-          className="inline-block mb-2 text-2xl font-semibold tracking-tight text-slate-700 dark:text-white"
-          id="content"
-        >
-          Generator tag
-        </h2>
-        <p className="mb-4 text-md text-gray-500 dark:text-gray-400">
-          Complete the form and get yours meta tags.
-        </p>
-      </div>
-
+    <>
+      <Title title=' Generator tag' subtitle='Complete the form and get yours meta tags.'></Title>
       <div className="flex w-full gap-3">
         <div className="w-full">
           <form onSubmit={formik.handleSubmit}>
@@ -282,13 +267,7 @@ export const GeneratePage = () => {
           </form>
         </div>
       </div>
-      <Modal
-        handleModal={statusModal}
-        setHandleModal={changeStatusModal}
-        {...formData}
-      />
-    </div>
-    </div>
-   
+      <Modal {...formData} />
+    </>
   );
 };

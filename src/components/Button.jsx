@@ -1,7 +1,7 @@
 export const Button = ({ title, className, icon, onClick, type }) => {
   return (
     <button
-      className={` p-3 rounded-md   text-md font-semibold ${className} `}
+      className={` p-4 rounded-md   text-md font-semibold ${className} `}
       type={type}
       onClick={onClick}
 

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./Button";
 
-export const Modal = ({ handleModal, setHandleModal, ...props }) => {
+export const Modal = ({...props}) => {
+
   const [buttonName, setButtonName] = useState("Copy");
+  const [copied, setCopied] = useState(false);
 
   let metaTags =
     `<meta name="title" content="${props.siteTitle}">\n` +
@@ -17,28 +19,41 @@ export const Modal = ({ handleModal, setHandleModal, ...props }) => {
     }`;
 
   const onCopy = async () => {
-    await navigator.clipboard.writeText(metaTags);
-    setButtonName("Copied!");
-    setTimeout(() => {
-      setButtonName("Copy");
-    }, 900);
+
+    try {
+     await navigator.clipboard.writeText(metaTags)
+     setCopied(true);
+    
+    } catch (error) {
+      console.error(error.message);
+    }
+   
   };
+
+  useEffect(() => {
+    let timer;
+    if (copied) {
+      setButtonName("Copied!");
+      timer = setTimeout(() => {
+        setButtonName("Copy");
+        setCopied(false);
+      }, 900);
+    }
+
+    return () => clearTimeout(timer);
+  }, [copied]);
+  
 
   return (
     <>
-      {/* <!-- Main modal --> */}
       <div
         id="default-modal"
         tabIndex="-1"
         aria-hidden="true"
-        className={`${
-          handleModal ? "flex" : "hidden"
-        } bg-gradient-to-t from-indigo-500  dark:bg-gradient-to-t dark:from-indigo-400 h-full flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0  max-h-full`}
+        className="hidden bg-gradient-to-t from-indigo-500  dark:bg-gradient-to-t dark:from-indigo-400 h-full  overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0  max-h-full"
       >
         <div className="relative p-4 w-full max-w-2xl max-h-full">
-          {/*    <!-- Modal content --> */}
           <div className="relative bg-white rounded-md shadow dark:bg-gray-700 p-4">
-            {/*  <!-- Modal header --> */}
             <div className="flex items-center justify-center gap-2 p-4 md:p-5  rounded-t dark:border-gray-600 ">
               <span className="icon-[solar--code-file-linear] text-1xl md:text-2xl dark:text-white" />
               <h3 className="text-1xl md:text-2xl font-normal text-gray-900 dark:text-white ">
@@ -46,7 +61,7 @@ export const Modal = ({ handleModal, setHandleModal, ...props }) => {
               </h3>
               <button
                 type="button"
-                onClick={setHandleModal}
+               
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="default-modal"
               >
@@ -68,13 +83,11 @@ export const Modal = ({ handleModal, setHandleModal, ...props }) => {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            {/*   <!-- Modal body --> */}
             <div className="p-4 md:p-5 space-y-4 bg-indigo-200 rounded-md overflow-auto whitespace-nowrap">
               <pre>
                 <code className="text-indigo-900">{metaTags}</code>
               </pre>
             </div>
-            {/* <!-- Modal footer --> */}
             <div className="flex items-center justify-between mt-3 md:py-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <div>
                 <span className="text-dark dark:text-white">Copy the code into your website </span>
