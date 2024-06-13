@@ -11,8 +11,8 @@ module.exports ={
 
   theme: {
     fontFamily: {
-      'sans': ['Barlow Semi Condensed', 'sans-serif'],
-      'serif': ['Barlow Semi Condensed', 'serif',],
+     /*  'sans': ['Barlow Semi Condensed', 'sans-serif'],
+      'serif': ['Barlow Semi Condensed', 'serif',], */
    
     },
     extend: {},
