@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export const GeneratePage = () => {
   const [formData, setformData] = useState(null);
-  const [statusModal, setStatusModal] = useState(false);
+
 
   const validate = (values) => {
     const errors = {};
@@ -56,8 +56,8 @@ export const GeneratePage = () => {
                     className={`mt-2 ms-1 text-sm ${
                       formik.values.siteTitle.length > 70
                         ? "text-red-500"
-                        : "text-gray-600"
-                    } dark:text-white`}
+                        : "text-gray-600 dark:text-white "
+                    }`}
                   >
                     (Characters left: {70 - formik.values.siteTitle.length})
                   </span>
@@ -88,8 +88,8 @@ export const GeneratePage = () => {
                     className={`mt-2 ms-1 text-sm ${
                       formik.values.siteDescription.length > 150
                         ? "text-red-500"
-                        : "text-gray-600"
-                    }  dark:text-white`}
+                        : "text-gray-600 dark:text-white "
+                    }  `}
                   >
                     (Characters left:{" "}
                     {150 - formik.values.siteDescription.length})
