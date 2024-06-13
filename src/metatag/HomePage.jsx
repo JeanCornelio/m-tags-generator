@@ -22,7 +22,7 @@ export const HomePage = () => {
           <div className="gap-4 flex w-full  justify-center">
             <Link to="/generate-page">
               <Button
-                title="Generate tags"
+                title="Generate tag"
                 icon="icon-[ph--magic-wand]"
                 className="bg-indigo-600  hover:bg-indigo-700 text-white"
               />
