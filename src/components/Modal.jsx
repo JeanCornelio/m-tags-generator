@@ -99,7 +99,7 @@ export const Modal = ({...props}) => {
                 title={buttonName}
                 icon="icon-[ph--copy-simple-light] text-2xl"
                 onClick={() => onCopy()}
-                className=" border border-indigo-600 py-1 text-sm text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
+                className=" border p-4 border-indigo-600 py-1 text-sm text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
               />
             </div>
           </div>

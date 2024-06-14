@@ -22,16 +22,16 @@ export const HomePage = () => {
           <div className="gap-4 flex w-full  justify-center">
             <Link to="/generate-page">
               <Button
-                title="Generate tag"
+                title="Generate Meta Tag"
                 icon="icon-[ph--magic-wand]"
-                className="bg-indigo-600  hover:bg-indigo-700 text-white"
+                className="bg-indigo-600 p-4   hover:bg-indigo-700 text-white"
               />
             </Link>
             <Link to="/preview-page">
               <Button
-                title="Preview tag content"
+                title="Preview Meta Tag"
                 icon="icon-[material-symbols--view-cozy-outline]"
-                className=" border border-indigo-600 text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
+                className=" border border-indigo-600 p-4  text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
               />
             </Link>
           </div>
