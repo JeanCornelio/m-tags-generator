@@ -40,10 +40,9 @@ export const GeneratePage = () => {
 
   return (
     <>
-      <Title title=' Generator tag' subtitle='Complete the form and get yours meta tags.'></Title>
-      <div className="flex w-full gap-3">
-        <div className="w-full">
-          <form onSubmit={formik.handleSubmit}>
+      <Title title='Generate' subtitle='Complete the form and get yours meta tags.'></Title>
+      <article className="flex w-full gap-3">
+      <form onSubmit={formik.handleSubmit} className="w-full">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Form Fields */}
               <div className=" col-span-2">
@@ -265,8 +264,7 @@ export const GeneratePage = () => {
               </div>
             </div>
           </form>
-        </div>
-      </div>
+      </article>
       <Modal {...formData} />
     </>
   );
