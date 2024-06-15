@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { MetaRouter } from "./Routes";
 import { Link, NavLink } from "react-router-dom";
 
@@ -29,7 +29,7 @@ export function App() {
 
   return (
     <>
-      <nav className=" fixed md:static border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-slate-900 w-full box-border h-16 flex justify-center ">
+      <nav className=" fixed md:static border-b border-gray-200 dark:border-gray-800 z-40 bg-white dark:bg-slate-900 w-full box-border h-16 flex justify-center ">
         <div className=" container flex justify-between  text-xl  px-7 ">
           <Link to="/" className="flex gap-1 items-center my-4">
             <span className="icon-[solar--code-file-bold-duotone] text-indigo-600 text-xl " />
