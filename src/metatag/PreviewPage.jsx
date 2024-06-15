@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Modal, Title } from "../components";
 import { getSiteInformation, dataFake } from "../service";
-
+import img from "../assets/img/tailwindtest.jpg";
 export const PreviewPage = () => {
   const [link, setLink] = useState("");
 
@@ -23,10 +23,11 @@ export const PreviewPage = () => {
         title="Preview"
         subtitle="You can experment with your content preview"
       />
-      <article className="flex flex-col lg:flex-row gap-5">
-        <div className="w-full lg:w-2/6  flex flex-col gap-3">
-          <form onSubmit={(e) => submit(e)}>
-            <h2 className="mb-8 font-semibold  text-gray-600 dark:text-white">
+      <article className="flex flex-col lg:flex-row gap-10 relative ">
+        <section className="w-full lg:w-2/6   ">
+        <div className="flex flex-col gap-3 sticky top-0 ">
+        <form onSubmit={(e) => submit(e)}>
+            <h2 className="mb-8 lg:mt-4 font-semibold  text-gray-600 dark:text-white">
               {" "}
               Meta Data
             </h2>
@@ -80,7 +81,7 @@ export const PreviewPage = () => {
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                className="flex flex-col items-center justify-center w-full h-36 md:h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <span className="icon-[clarity--upload-cloud-line] w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"></span>
@@ -141,32 +142,89 @@ export const PreviewPage = () => {
             </div>
           </form>
         </div>
+       
+        </section>
 
-        <aside className="w-full md:w-4/6">
-          <h2 className="mb-8 font-semibold  text-gray-600 dark:text-white">
+        <section className="w-full md:w-4/6 ">
+          <h2 className="mb-8 lg:mt-4 font-semibold  text-gray-600 dark:text-white">
             Preview
           </h2>
-          <div className="flex flex-col gap-y-7 ">
-            <h3 className="font-semibold text-indigo-400">Google</h3>
-            <div className="w-4/5">
-              <header className="flex gap-3 items-center mb-2">
-                <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
-                <div>
-                  <span className="text-sm block">couplemedia.com</span>{" "}
-                  {/* Link */}
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm block">https://couplemedia.com</span>{" "}
-                    {/* Link literal */}
-                    <span class="icon-[material-symbols--more-vert]"></span>
+          <div className="flex flex-col gap-y-10  dark:text-[#bdc1c6] text-[#4d5156]">
+            <div className="font-google">
+              <h3 className="font-semibold text-indigo-400 mb-3">Google</h3>
+              <article className="w-full md:w-4/5 group">
+                <header className="flex gap-3 items-center mb-2 cursor-pointer group ">
+                  <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
+                  <div>
+                    <span className="text-[14px] block ">couplemedia.com</span>{" "}
+                    {/* Link */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[12px] block ">
+                        https://couplemedia.com
+                      </span>{" "}
+                      {/* Link literal */}
+                      <span className="icon-[material-symbols--more-vert] text-gray-500"></span>
+                    </div>
                   </div>
+                </header>
+                <h3 className=" text-[#99c3ff] hover:underline underline-offset-1 cursor-pointer text-[20px] inline-block ">
+                  Couple Media
+                </h3>{" "}
+                {/* Title */}
+                <p className="leading-[1.58] text-[14px] ">
+                  Expertos en Publicidad, Marketing Digital, Diseño de página
+                  Web, manejo de redes sociales, creación de marca / Branding y
+                  diseño gráfico en general.
+                </p>
+                {/* description */}
+              </article>
+            </div>
+
+            <div className="  h-[389px]">
+              <h3 className="font-semibold text-indigo-400 mb-3">Facebook</h3>
+              <article className=" w-full md:w-[500px] group relative hover:opacity-90">
+                <header
+                  className="w-full md:w-[500px] h-[261px]  md:rounded-md bg-cover bg-no-repeat bg-center "
+                  style={{
+                    backgroundImage: `url(${img})`,
+                  }}
+                ></header>
+                <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.5rem] bg-white dark:bg-slate-900 dark:border-gray-800">
+                  <span className=" block uppercase text-[#b0b3b8] text-[.7800rem] ">
+                    tailwindcss.com
+                  </span>{" "}
+                  {/* Link */}
+                  <h3 className="text[1.0625rem] font-semibold leading-[1.1] mt-1">
+                    Tailwind CSS - Rapidly build modern websites without ever
+                    leaving your HTML.
+                  </h3>{" "}
+                  {/* Title */}
+                </footer>
+               
+              </article>
+            </div>
+            <div className="">
+              <h3 className="font-semibold text-indigo-400 mb-3">Twitter</h3>
+              <article className=" w-full md:w-[500px] group relative ">
+                <header
+                  className="w-full md:w-[500px] h-[261px]  rounded-2xl   bg-cover bg-no-repeat bg-center "
+                  style={{
+                    backgroundImage: `url(${img})`,
+                  }}
+                ></header>
+                <footer>
+                  <span className="text-gray-500 text-[13px]">De tailwindcss.com</span>
+                </footer>
+
+                <div className=" bg-black opacity-[0.80] rounded text-[13px] md:w-[465px] px-1 pb-0.5  absolute bottom-[2.3rem] right-[12px] left-[12px] ">
+
+                <p className="truncate text-white  ">Tailwind CSS - Rapidly build modern websites without ever
+                leaving your HTML.</p>
                 </div>
-              </header>
-              <h3 className="dark:text-white text-[#99c3ff]    hover:underline underline-offset-1 pointer">Couple Media</h3>{" "}
-              {/* Title */}
-              <div className="leading-[1.58]">Expertos en Publicidad, Marketing Digital, Diseño de página Web, manejo de redes sociales, creación de marca / Branding y diseño gráfico en general.</div>{/* description */}
+              </article>
             </div>
           </div>
-        </aside>
+        </section>
       </article>
       <Modal />
     </>

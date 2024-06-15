@@ -13,9 +13,12 @@ module.exports ={
     fontFamily: {
      /*  'sans': ['Barlow Semi Condensed', 'sans-serif'],
       'serif': ['Barlow Semi Condensed', 'serif',], */
+      'google': ['Helvetica', 'Arial', 'sans-serif'],
+      
+    },
+    extend: {
    
     },
-    extend: {},
   },
   plugins: [
     require('flowbite/plugin'),
