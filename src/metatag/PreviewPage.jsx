@@ -189,7 +189,7 @@ export const PreviewPage = () => {
                     backgroundImage: `url(${img})`,
                   }}
                 ></header>
-                <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.5rem] bg-white dark:bg-slate-900 dark:border-gray-800">
+                <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.2rem] bg-white dark:bg-slate-900 dark:border-gray-800">
                   <span className=" block uppercase text-[#b0b3b8] text-[.7800rem] ">
                     tailwindcss.com
                   </span>{" "}
