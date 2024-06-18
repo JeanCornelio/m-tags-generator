@@ -153,7 +153,7 @@ export const PreviewPage = () => {
             <div className="font-google">
               <h3 className="font-semibold text-indigo-400 mb-3">Google</h3>
               <article className="w-full md:w-4/5 group">
-                <header className="flex gap-3 items-center mb-2 cursor-pointer group ">
+                <header className="flex gap-3 items-center mb-3 cursor-pointer group ">
                   <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
                   <div>
                     <span className="text-[14px] block ">couplemedia.com</span>{" "}
@@ -180,7 +180,7 @@ export const PreviewPage = () => {
               </article>
             </div>
 
-            <div className="  h-[389px]">
+            <div className="  h-[370px]">
               <h3 className="font-semibold text-indigo-400 mb-3">Facebook</h3>
               <article className=" w-full md:w-[500px] group relative hover:opacity-90">
                 <header
@@ -203,9 +203,9 @@ export const PreviewPage = () => {
                
               </article>
             </div>
-            <div className="">
+            <div className=" h-[320px]">
               <h3 className="font-semibold text-indigo-400 mb-3">Twitter</h3>
-              <article className=" w-full md:w-[500px] group relative ">
+              <article className=" w-full md:w-[500px]  relative ">
                 <header
                   className="w-full md:w-[500px] h-[261px]  rounded-2xl   bg-cover bg-no-repeat bg-center "
                   style={{
@@ -221,6 +221,49 @@ export const PreviewPage = () => {
                 <p className="truncate text-white  ">Tailwind CSS - Rapidly build modern websites without ever
                 leaving your HTML.</p>
                 </div>
+              </article>
+            </div>
+            <div className="">
+              <h3 className="font-semibold text-indigo-400 mb-3">Linkedin</h3>
+              <article className="  w-full  xl:w-[700px] flex gap-2 border px-4 py-3 md:rounded-xl bg-[#edf3f8]  items-center">
+                <header
+                  className="w-[128px] h-[72px]   bg-cover bg-no-repeat bg-center "
+                  style={{
+                    backgroundImage: `url(${img})`,
+                  }}
+                ></header>
+                <footer className="flex flex-col gap-3">
+                <p className="text-sm text-gray-600  font-bold cursor-pointer">Tailwind CSS - Rapidly build modern websites without ever
+                leaving your HTML.</p>
+                  <span className="text-gray-500 text-[12px] cursor-pointer">tailwindcss.com</span>
+                </footer>
+              </article>
+            </div>
+            <div className="">
+              <h3 className="font-semibold text-indigo-400 mb-3">Slack</h3>
+              <article className="  w-full  xl:w-[550px] flex flex-row-reverse gap-3">
+                <div>
+                <header className="flex flex-col mb-2 ">
+                  <div className="flex gap-2 items-center">
+                  <img className="bg-gray-300 h-[16px] w-[16px] rounded-sm" />
+                  <span className="font-bold dark:text-[#D1D2D3]">Tailwind CSS</span>
+                  </div>
+                <p className=" text-[#1D9BD1] font-bold cursor-pointer hover:underline underline-offset-1  leading-[1.46667rem]">Tailwind CSS - Rapidly build modern websites without ever
+                leaving your HTML.</p>
+                <p className=" text-gray-600 dark:text-[#D1D2D3]  leading-[1.46667rem]">Tailwind CSS is a utility-first CSS framework for rapidly building modern websites without ever leaving your HTML.
+                  
+                </p>
+                
+                </header>
+                <div
+                  className="w-full sm:w-[360px] h-[180px] bg-cover bg-no-repeat bg-center rounded-[8px] cursor-zoom-in"
+                  style={{
+                    backgroundImage: `url(${img})`,
+                  }}
+                ></div>
+                </div>
+               
+                <div className=" dark:border-[#35373B] border border-x-[2.3px]  rounded-md"> </div>
               </article>
             </div>
           </div>
