@@ -29,7 +29,7 @@ export function App() {
   };
 
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <nav className="fixed md:static border-b border-gray-200 dark:border-gray-800 z-40 bg-white dark:bg-slate-900 w-full box-border h-16 flex justify-center">
         <div className="container flex justify-between text-xl px-7">
           <Link to="/" className="flex gap-1 items-center my-4">
@@ -62,15 +62,18 @@ export function App() {
           </div>
         </div>
       </nav>
-      <main className="flex-grow flex flex-col container mx-auto p-4 sm:px-6 md:px-8   ">
+     
+      <main className="flex-grow flex flex-col container mx-auto p-4 sm:px-6 md:px-8 f-full">
         <section className=" md:mt-0">
           <MetaRouter />
         </section>
       </main>
+    
+     
 
       <footer className="  dark:bg-[#0F172A] flex  w-full dark:border-t  dark:border-gray-800 h-12 ">
         <div className="w-full container mx-auto justify-center sm:justify-end flex px-7">
-          <div className="flex  items-center justify-between w-full  ">
+          <div className="flex  items-center justify-between w-full py-4  ">
             <Link
               to="https://github.com/JeanCornelio"
               target="_blank"
@@ -91,6 +94,6 @@ export function App() {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

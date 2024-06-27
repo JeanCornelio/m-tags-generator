@@ -16,7 +16,7 @@ export const Modal = ({...props}) => {
     `<meta name="language" content="${props.siteLanguage}">\n` +
     `${
       props.siteAuthor ? `<meta name="author" content="${props.siteAuthor}` : ""
-    }`;
+    }">`;
 
   const onCopy = async () => {
 

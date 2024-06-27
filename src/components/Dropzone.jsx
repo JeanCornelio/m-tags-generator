@@ -26,9 +26,9 @@ export const Dropzone = ({ onDropzone, imgDefault }) => {
       <label
         htmlFor="dropzone-file"
         {...getRootProps({
-          className: `flex flex-col items-center justify-center w-full h-36 md:h-64 border-2 ${
-            isDragAccept ? "border-indigo-900 dark:border-white" : "border-gray-300 dark:border-white"
-          } transition-all duration-300   border-dashed rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100  bg-cover bg-no-repeat bg-center opacity-40 absolute`,
+          className: `flex flex-col items-center justify-center w-full h-36 md:h-64 border-2  ${
+            isDragAccept ? "border-indigo-900 " : "border-gray-300 dark:border-white"
+          } transition-all duration-300    rounded-lg  cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100  bg-cover bg-no-repeat bg-center opacity-40 absolute`,
         })}
         style={{
           backgroundImage: `url(${image})`,

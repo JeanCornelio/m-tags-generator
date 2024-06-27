@@ -24,14 +24,14 @@ export const HomePage = () => {
               <Button
                 title="Generate"
                 icon="icon-[ph--magic-wand]"
-                className="bg-indigo-600 p-2 sm:p-3 md:px-10  hover:bg-indigo-700 text-white"
+                className="bg-indigo-600 p-3 md:px-10  hover:bg-indigo-700 text-white"
               />
             </Link>
             <Link to="/preview-page">
               <Button
                 title="Preview"
                 icon="icon-[material-symbols--view-cozy-outline]"
-                className=" border border-indigo-600  p-2 sm:p-3 md:px-10  text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
+                className=" border border-indigo-600   p-3 md:px-10  text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
               />
             </Link>
           </div>
