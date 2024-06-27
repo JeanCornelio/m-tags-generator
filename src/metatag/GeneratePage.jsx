@@ -39,7 +39,7 @@ export const GeneratePage = () => {
   });
 
   return (
-    <>
+    <div className="py-20 md:py-5">
       <Title title='Generate' subtitle='Complete the form and get yours meta tags.'></Title>
       <article className="flex w-full gap-3">
       <form onSubmit={formik.handleSubmit} className="w-full">
@@ -266,6 +266,6 @@ export const GeneratePage = () => {
           </form>
       </article>
       <Modal {...formData} />
-    </>
+    </div>
   );
 };

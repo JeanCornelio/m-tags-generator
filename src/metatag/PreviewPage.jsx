@@ -24,7 +24,7 @@ export const PreviewPage = () => {
   };
 
   return (
-    <>
+    <div className="py-20 md:py-5">
       <Title
         title="Preview"
         subtitle="You can experment with your content preview"
@@ -270,6 +270,6 @@ export const PreviewPage = () => {
         </section>
       </article>
       <Modal />
-    </>
+    </div>
   );
 };
