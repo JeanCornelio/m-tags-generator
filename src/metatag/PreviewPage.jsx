@@ -1,17 +1,56 @@
 import { useState } from "react";
 import { Button, Modal, Title, Dropzone } from "../components";
-import { getSiteInformation, dataFake } from "../service";
+import { getSiteInformation } from "../service";
+import { useFormik } from "formik";
+import imgNotFound from "../assets/img/Image-not-found.jpg";
 
-import img from "../assets/img/tailwindtest.jpg";
+/* 
+  TASKS
+
+  1- To Make an alert Component
+  2- To Changes the btn names in homepage (To change the position of priority in the buttons)
+  3- Looking for the error <select> instead
+  4- responsive of routes in header
+  5- Looking for others ways for show the information in previewPage
+
+*/
+
+const defaultTag = {
+  ogTitle: "YouTube",
+  ogDescription:
+    "Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.",
+  ogImage: [
+    {
+      url: "https://www.youtube.com/img/desktop/yt_1200.png",
+    },
+  ],
+  requestUrl: "www.youtube.com",
+};
+
 export const PreviewPage = () => {
-  const [link, setLink] = useState("");
-  const [image, setImage] = useState(null);
+  const [link, setLink] = useState("https://www.youtube.com");
+  const [image, setImage] = useState(
+    "https://www.youtube.com/img/desktop/yt_1200.png"
+  );
+  const [formData, setformData] = useState(null);
+  const [bntParsear, setBntParsear] = useState({
+    label: "Parsear",
+    disabled: false,
+  });
+  const [tagProperty, setTagProperty] = useState(defaultTag);
 
   const getData = async () => {
-    //let res = await getSiteInformation(link)
-    let res = dataFake();
+    setBntParsear({ label: "Loanding...", disabled: true });
 
-    console.log(res);
+    let res = await getSiteInformation(link);
+
+    if ("success" in res === false) {
+      alert("Url Not Found");
+      setBntParsear({ label: "Parsear", disabled: false });
+    } else {
+      setTagProperty({...res, requestUrl: res.requestUrl.replace(/http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/g, '')});
+      setTagInformation(res);
+    }
   };
 
   const onDropzone = (image) => {
@@ -22,6 +61,30 @@ export const PreviewPage = () => {
     e.preventDefault();
     if (link.trim().length > 0) getData();
   };
+
+  const setTagInformation = (res) => {
+    const { ogTitle, ogDescription, ogImage } = res;
+
+    formik.setValues({
+      siteTitle: ogTitle,
+      siteDescription: ogDescription,
+    });
+
+    const img = ogImage ? ogImage[0].url : imgNotFound;
+
+    setImage(img);
+    setBntParsear({ label: "Parsear", disabled: false });
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      siteTitle: tagProperty.ogTitle,
+      siteDescription: tagProperty.ogDescription,
+    },
+    onSubmit: (values) => {
+      setformData(values);
+    },
+  });
 
   return (
     <div className="py-20 md:py-5">
@@ -74,17 +137,19 @@ export const PreviewPage = () => {
                 <div className="col-span-3 lg:col-span-1">
                   <Button
                     type="submit"
-                    title="Parse"
-                    className=" text-sm  w-full bg-indigo-600  hover:bg-indigo-700 text-white p-2.5"
-                  >
-                    Parsear
-                    {/* Loanding... */}
-                  </Button>
+                    title={bntParsear.label}
+                    disabled={bntParsear.disabled}
+                    className=" bg-indigo-600  hover:bg-indigo-700 px-5 py-2.5 text-center me-2 text-sm  w-full  text-white p-2.5"
+                    icon={`${
+                      bntParsear.disabled &&
+                      "icon-[eos-icons--loading] text-white"
+                    } `}
+                  ></Button>
                 </div>
               </div>
             </form>
-            <form className="flex flex-col gap-3" onSubmit={(e) => submit(e)}>
-              <Dropzone onDropzone={onDropzone} imgDefault={img} />
+            <form className="flex flex-col gap-3">
+              <Dropzone onDropzone={onDropzone} img={image} />
               <div>
                 <label
                   htmlFor="siteTitle"
@@ -96,6 +161,8 @@ export const PreviewPage = () => {
                   type="text"
                   name="siteTitle"
                   id="siteTitle"
+                  onChange={formik.handleChange}
+                  value={formik.values.siteTitle}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                   placeholder="Your site title"
                 />
@@ -110,6 +177,8 @@ export const PreviewPage = () => {
                 <textarea
                   type="text"
                   id="siteDescription"
+                  value={formik.values.siteDescription}
+                  onChange={formik.handleChange}
                   name="siteDescription"
                   rows="4"
                   placeholder="Your site description"
@@ -120,7 +189,7 @@ export const PreviewPage = () => {
                 <button
                   data-modal-target="default-modal"
                   data-modal-toggle="default-modal"
-                  type="submit"
+                  type="button"
                   className="p-3 w-full rounded-md cursor-pointer text-md font-semibold bg-indigo-600 enabled:hover:bg-indigo-700 text-white mt-3 disabled:opacity-75 disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center gap-1 justify-center">
@@ -142,27 +211,30 @@ export const PreviewPage = () => {
               <h3 className="font-semibold text-indigo-400 mb-3">Google</h3>
               <article className="w-full md:w-4/5 group">
                 <header className="flex gap-3 items-center mb-3 cursor-pointer group ">
-                  <div className="h-8 w-8 bg-gray-200 rounded-full"></div>
+                  <div
+                    className="h-8 w-8 bg-gray-200 rounded-full   bg-no-repeat bg-center "
+                    style={{
+                      backgroundImage: `url(${tagProperty.favicon})`,
+                    }}
+                  ></div>
                   <div>
-                    <span className="text-[14px] block ">couplemedia.com</span>{" "}
+                    <span className="text-[14px] block ">
+                      {tagProperty.requestUrl}
+                    </span>{" "}
                     {/* Link */}
                     <div className="flex items-center gap-2">
-                      <span className="text-[12px] block ">
-                        https://couplemedia.com
-                      </span>{" "}
+                      <span className="text-[12px] block ">{link}</span>{" "}
                       {/* Link literal */}
                       <span className="icon-[material-symbols--more-vert] text-gray-500"></span>
                     </div>
                   </div>
                 </header>
                 <h3 className=" text-[#99c3ff] hover:underline underline-offset-1 cursor-pointer text-[20px] inline-block ">
-                  Couple Media
+                  {formik.values.siteTitle}
                 </h3>{" "}
                 {/* Title */}
                 <p className="leading-[1.58] text-[14px] ">
-                  Expertos en Publicidad, Marketing Digital, Diseño de página
-                  Web, manejo de redes sociales, creación de marca / Branding y
-                  diseño gráfico en general.
+                  {formik.values.siteDescription}
                 </p>
                 {/* description */}
               </article>
@@ -174,17 +246,16 @@ export const PreviewPage = () => {
                 <header
                   className="w-full md:w-[500px] h-[261px]  md:rounded-md bg-cover bg-no-repeat bg-center border dark:border-gray-800"
                   style={{
-                    backgroundImage: `url(${image || img})`,
+                    backgroundImage: `url(${image})`,
                   }}
                 ></header>
-                <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.2rem] bg-white dark:bg-slate-900 dark:border-gray-800">
+                <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.2rem] bg-white dark:bg-slate-900 dark:border-gray-800 h-[77px] w-full">
                   <span className=" block uppercase text-[#b0b3b8] text-[.7800rem] ">
-                    tailwindcss.com
+                    {formik.values.siteTitle}.com
                   </span>{" "}
                   {/* Link */}
-                  <h3 className="text[1.0625rem] font-semibold leading-[1.1] mt-1">
-                    Tailwind CSS - Rapidly build modern websites without ever
-                    leaving your HTML.
+                  <h3 className="text[1.0625rem] font-semibold leading-[1.1] mt-1 truncate">
+                    {formik.values.siteDescription}
                   </h3>{" "}
                   {/* Title */}
                 </footer>
@@ -196,67 +267,67 @@ export const PreviewPage = () => {
                 <header
                   className="w-full md:w-[500px] h-[261px]  rounded-2xl   bg-cover bg-no-repeat bg-center border dark:border-gray-800"
                   style={{
-                    backgroundImage: `url(${image || img})`,
+                    backgroundImage: `url(${image})`,
                   }}
                 ></header>
                 <footer>
                   <span className="text-gray-500 text-[13px]">
-                    De tailwindcss.com
+                    De {tagProperty.requestUrl}
                   </span>
                 </footer>
 
-                <div className=" bg-black opacity-[0.80] rounded text-[13px] md:w-[465px] px-1 pb-0.5  absolute bottom-[2.3rem] right-[12px] left-[12px] ">
-                  <p className="truncate text-white  ">
-                    Tailwind CSS - Rapidly build modern websites without ever
-                    leaving your HTML.
-                  </p>
-                </div>
+                <p className="truncate text-white  bg-black opacity-[0.80] rounded text-[13px]  px-1 pb-0.5 h-[23px]  absolute bottom-[2.3rem] left-[12px] max-w-[95%]">
+                  {formik.values.siteDescription}
+                </p>
               </article>
             </div>
             <div className="">
               <h3 className="font-semibold text-indigo-400 mb-3">Linkedin</h3>
               <article className="  w-full  xl:w-[700px] flex gap-2 border px-4 py-3 md:rounded-xl bg-[#edf3f8]  items-center">
-                <header
-                  className="w-[128px] h-[72px]   bg-cover bg-no-repeat bg-center "
+                <div
+                  className="w-[128px] h-[72px]   bg-cover bg-no-repeat bg-center rounded-md"
                   style={{
-                    backgroundImage: `url(${image || img})`,
+                    backgroundImage: `url(${image})`,
                   }}
-                ></header>
-                <footer className="flex flex-col gap-3">
-                  <p className="text-sm text-gray-600  font-bold cursor-pointer">
-                    Tailwind CSS - Rapidly build modern websites without ever
-                    leaving your HTML.
+                ></div>
+
+                <footer className="flex flex-col gap-2 w-full">
+                  <p className="text-sm text-gray-600  font-bold cursor-pointer truncate max-w-[80%] ">
+                    {formik.values.siteTitle}
                   </p>
-                  <span className="text-gray-500 text-[12px] cursor-pointer">
-                    tailwindcss.com
+                  <span className="text-gray-500 text-[12px] cursor-pointer ">
+                    {tagProperty.requestUrl}
                   </span>
                 </footer>
               </article>
             </div>
             <div className="">
               <h3 className="font-semibold text-indigo-400 mb-3">Slack</h3>
-              <article className="  w-full  xl:w-[550px] flex flex-row-reverse gap-3">
+              <article className="  w-full  xl:w-[550px] flex flex-row-reverse gap-3 justify-end">
                 <div>
                   <header className="flex flex-col mb-2 ">
                     <div className="flex gap-2 items-center">
-                      <img className="bg-gray-300 h-[16px] w-[16px] rounded-sm" />
+                      <div
+                        className="bg-gray-300 h-[16px] w-[16px] rounded-sm bg-no-repeat bg-center "
+                        style={{
+                          backgroundImage: `url(${tagProperty.favicon})`,
+                        }}
+                      ></div>
                       <span className="font-bold dark:text-[#D1D2D3]">
-                        Tailwind CSS
+                        {tagProperty.requestUrl}
                       </span>
                     </div>
                     <p className=" text-[#1D9BD1] font-bold cursor-pointer hover:underline underline-offset-1  leading-[1.46667rem]">
-                      Tailwind CSS - Rapidly build modern websites without ever
-                      leaving your HTML.
+                      {formik.values.siteTitle}
                     </p>
                     <p className=" text-gray-600 dark:text-[#D1D2D3]  leading-[1.46667rem]">
-                      Tailwind CSS is a utility-first CSS framework for rapidly
-                      building modern websites without ever leaving your HTML.
+                      {formik.values.siteDescription}
                     </p>
                   </header>
                   <div
                     className="w-full sm:w-[360px] h-[180px] bg-cover bg-no-repeat bg-center rounded-[8px] cursor-zoom-in border dark:border-gray-800 "
                     style={{
-                      backgroundImage: `url(${image || img})`,
+                      backgroundImage: `url(${image})`,
                     }}
                   ></div>
                 </div>
@@ -269,7 +340,7 @@ export const PreviewPage = () => {
           </div>
         </section>
       </article>
-      <Modal />
+      <Modal {...formData} />
     </div>
   );
 };
