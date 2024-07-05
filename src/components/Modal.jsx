@@ -18,6 +18,8 @@ export const Modal = ({...props}) => {
       props.siteAuthor ? `<meta name="author" content="${props.siteAuthor}` : ""
     }">`;
 
+    console.log(props)
+
   const onCopy = async () => {
 
     try {

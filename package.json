@@ -17,7 +17,8 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-router-dom": "^6.23.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "standard": "^17.1.0"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.217",
@@ -33,5 +34,10 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
     "vite": "^5.2.0"
-  }
+  },
+  
+    "eslintConfig": {
+      "extends": "standard"
+    }
+  
 }

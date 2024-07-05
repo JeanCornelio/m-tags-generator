@@ -1,9 +1,11 @@
-import { useState } from "react";
+
 import { useDropzone } from "react-dropzone";
 
-export const Dropzone = ({ onDropzone, imgDefault }) => {
-  const [image, setImage] = useState(imgDefault);
+export const Dropzone = ({ onDropzone, img }) => {
+ 
 
+
+ 
   const onDrop = (acceptedFiles) => {
     convertBase64(acceptedFiles);
   };
@@ -14,7 +16,7 @@ export const Dropzone = ({ onDropzone, imgDefault }) => {
     let file = document[0];
 
     reader.addEventListener("load", () => {
-      setImage(reader.result);
+    
       onDropzone(reader.result);
     });
 
@@ -31,7 +33,7 @@ export const Dropzone = ({ onDropzone, imgDefault }) => {
           } transition-all duration-300    rounded-lg  cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100  bg-cover bg-no-repeat bg-center opacity-40 absolute`,
         })}
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundImage: `url(${img})`,
         }}
       ></label>
       <div className="flex flex-col items-center justify-center pt-5 pb-6">
