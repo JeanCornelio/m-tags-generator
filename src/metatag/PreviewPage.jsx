@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Title, Dropzone } from "../components";
+import { Button, Modal, Title, Dropzone, Toast } from "../components";
 import { getSiteInformation } from "../service";
 import { useFormik } from "formik";
 import imgNotFound from "../assets/img/Image-not-found.jpg";
@@ -7,8 +7,8 @@ import imgNotFound from "../assets/img/Image-not-found.jpg";
 /* 
   TASKS
 
-  1- To Make an alert Component
-  2- To Changes the btn names in homepage (To change the position of priority in the buttons)
+  1- To Make an alert Component (Check?)
+  2- To Changes the btn names in homepage (To change the position of priority in the buttons) (Check?)
   3- Looking for the error <select> instead
   4- responsive of routes in header
   5- Looking for others ways for show the information in previewPage
@@ -27,30 +27,47 @@ const defaultTag = {
   requestUrl: "www.youtube.com",
 };
 
+
 export const PreviewPage = () => {
   const [link, setLink] = useState("https://www.youtube.com");
   const [image, setImage] = useState(
     "https://www.youtube.com/img/desktop/yt_1200.png"
   );
-  const [formData, setformData] = useState(null);
+
   const [bntParsear, setBntParsear] = useState({
     label: "Parsear",
     disabled: false,
   });
   const [tagProperty, setTagProperty] = useState(defaultTag);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastData, setToastData] = useState({ type: 1, title: "", description: "" });
+  const [metaTags, setMetaTags] = useState("");
+  const showToast = (type, title, description) => {
+    setToastData({ type, title, description });
+    setToastVisible(true);
+  };
+
+  const handleCloseToast = () => {
+    setToastVisible(false);
+  };
 
   const getData = async () => {
-    setBntParsear({ label: "Loanding...", disabled: true });
-
-    let res = await getSiteInformation(link);
-
-    if ("success" in res === false) {
-      alert("Url Not Found");
+    try {
+      setBntParsear({ label: "Loading...", disabled: true });
+      let res = await getSiteInformation(link);
+      if (!res.success) {
+        showToast(2, "Warning", "The page you want to find hasn't been found.")
+     
+        setBntParsear({ label: "Parsear", disabled: false });
+      } else {
+        setTagProperty({...res, requestUrl: res.requestUrl.replace(/http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/, '')});
+        setTagInformation(res);
+      }
+    } catch (error) {
+      showToast(3, "Error", "An error occurred while fetching data.");
       setBntParsear({ label: "Parsear", disabled: false });
-    } else {
-      setTagProperty({...res, requestUrl: res.requestUrl.replace(/http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/g, '')});
-      setTagInformation(res);
     }
+
   };
 
   const onDropzone = (image) => {
@@ -66,8 +83,8 @@ export const PreviewPage = () => {
     const { ogTitle, ogDescription, ogImage } = res;
 
     formik.setValues({
-      siteTitle: ogTitle,
-      siteDescription: ogDescription,
+      siteTitle: ogTitle  ||  "",
+      siteDescription: ogDescription  || "",
     });
 
     const img = ogImage ? ogImage[0].url : imgNotFound;
@@ -82,7 +99,32 @@ export const PreviewPage = () => {
       siteDescription: tagProperty.ogDescription,
     },
     onSubmit: (values) => {
-      setformData(values);
+     
+ 
+      console.log(values)
+     let metaTags =
+        `<!-- Primary Meta Tags -->\n`+
+        `<title> ${values.siteTitle} </title>\n`+
+        `<meta name="title" content="${values.siteTitle}" />\n`+
+        `<meta name="description" content="${values.siteDescription}" />\n`+
+        `\n`+
+        `<!-- Open Graph / Facebook -->\n`+
+        `<meta property="og:type" content="website" />\n`+
+        `<meta property="og:url" content="${link}" />\n`+
+        `<meta property="og:title" content="${values.siteTitle}" />\n`+
+        `<meta property="og:description" content="${values.siteDescription}" />\n`+
+        `<meta property="og:image" content="https://your-image.com/image" />\n` +
+        `\n`+
+        `<!-- Open Graph / Twitter -->\n`+
+        `<meta property="twitter:card" content="summary_large_image" />\n`+
+        `<meta property="twitter:url" content="${link}"  />\n`+
+        `<meta property="twitter:title" content="${values.siteTitle}" />\n`+
+        `<meta property="twitter:description" content="${values.siteDescription} />\n`+
+        `<meta property="twitter:image" content="https://your-image.com/image" />\n`+
+        `\n`+
+        `<!-- Meta Tags Generated with https://Mtag.com -->\n`;
+        console.log(metaTags)
+        setMetaTags(metaTags);
     },
   });
 
@@ -148,7 +190,7 @@ export const PreviewPage = () => {
                 </div>
               </div>
             </form>
-            <form className="flex flex-col gap-3">
+            <form className="flex flex-col gap-3" onSubmit={formik.handleSubmit} >
               <Dropzone onDropzone={onDropzone} img={image} />
               <div>
                 <label
@@ -189,7 +231,7 @@ export const PreviewPage = () => {
                 <button
                   data-modal-target="default-modal"
                   data-modal-toggle="default-modal"
-                  type="button"
+                  type="submit"
                   className="p-3 w-full rounded-md cursor-pointer text-md font-semibold bg-indigo-600 enabled:hover:bg-indigo-700 text-white mt-3 disabled:opacity-75 disabled:cursor-not-allowed"
                 >
                   <div className="flex items-center gap-1 justify-center">
@@ -251,7 +293,7 @@ export const PreviewPage = () => {
                 ></header>
                 <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.2rem] bg-white dark:bg-slate-900 dark:border-gray-800 h-[77px] w-full">
                   <span className=" block uppercase text-[#b0b3b8] text-[.7800rem] ">
-                    {formik.values.siteTitle}.com
+                    {formik.values.siteTitle}
                   </span>{" "}
                   {/* Link */}
                   <h3 className="text[1.0625rem] font-semibold leading-[1.1] mt-1 truncate">
@@ -340,7 +382,16 @@ export const PreviewPage = () => {
           </div>
         </section>
       </article>
-      <Modal {...formData} />
+      <Modal metaTags={metaTags} />
+     
+      <Toast
+        type={toastData.type}
+        title={toastData.title}
+        description={toastData.description}
+        isVisible={toastVisible}
+        onClose={handleCloseToast}
+      />
+      
     </div>
   );
 };
