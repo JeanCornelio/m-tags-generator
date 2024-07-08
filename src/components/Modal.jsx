@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import { Button } from "./Button";
 
-export const Modal = ({metaTags}) => {
-
+export const Modal = ({ metaTags }) => {
   const [buttonName, setButtonName] = useState("Copy");
   const [copied, setCopied] = useState(false);
 
-
-  console.log(metaTags)
+  console.log(metaTags);
   const onCopy = async () => {
     try {
-     await navigator.clipboard.writeText(metaTags)
-     setCopied(true);
-    
+      await navigator.clipboard.writeText(metaTags);
+      setCopied(true);
     } catch (error) {
       console.error(error.message);
     }
@@ -30,7 +27,6 @@ export const Modal = ({metaTags}) => {
 
     return () => clearTimeout(timer);
   }, [copied]);
-  
 
   return (
     <>
@@ -49,27 +45,25 @@ export const Modal = ({metaTags}) => {
               </h3>
               <button
                 type="button"
-               
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-hide="default-modal"
               >
-               
-                <span className="icon-[iconamoon--close] text-2xl"/>
+                <span className="icon-[iconamoon--close] text-2xl" />
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
             <div
-   className=" flex gap-3 items-center bg-white  dark:text-white border dark:bg-gray-700 dark:border-gray-800 rounded-md p-4 mb-2
+              className=" flex gap-3 items-center bg-white  dark:text-white border dark:bg-gray-700 dark:border-gray-800 rounded-md p-4 mb-2
     "
-    >
-      <span className="icon-[formkit--warning] text-yellow-400 text-2xl"/>
-      <div>
-        <p className="uppercase font-semibold"></p>
-        <p>Warning: Be sure to upload your image to your CMS or host.</p>
-      </div>
-
-      
-    </div>
+            >
+              <span className="icon-[formkit--warning] text-yellow-400 text-2xl" />
+              <div>
+                <p className="uppercase font-semibold"></p>
+                <p>
+                  Warning: Be sure to upload your image to your CMS or host.
+                </p>
+              </div>
+            </div>
             <div className="p-4 md:p-5 space-y-4 bg-indigo-200 rounded-md overflow-auto whitespace-nowrap">
               <pre>
                 <code className="text-indigo-900">{metaTags}</code>
@@ -77,7 +71,9 @@ export const Modal = ({metaTags}) => {
             </div>
             <div className="flex items-center justify-between mt-3 md:py-5 border-t border-gray-200 rounded-b dark:border-gray-600">
               <div>
-                <span className="text-dark dark:text-white">Copy the code into your website </span>
+                <span className="text-dark dark:text-white">
+                  Copy the code into your website{" "}
+                </span>
                 <span className="text-indigo-800 font-semibold dark:text-indigo-400">
                   {"<head>"}
                 </span>
