@@ -1,11 +1,6 @@
-
 import { useDropzone } from "react-dropzone";
 
 export const Dropzone = ({ onDropzone, img }) => {
- 
-
-
- 
   const onDrop = (acceptedFiles) => {
     convertBase64(acceptedFiles);
   };
@@ -16,20 +11,21 @@ export const Dropzone = ({ onDropzone, img }) => {
     let file = document[0];
 
     reader.addEventListener("load", () => {
-    
       onDropzone(reader.result);
     });
 
     reader.readAsDataURL(file);
   };
-  //Verificar el borde 
+  //Verificar el borde
   return (
-    <div className="flex items-center justify-center w-full relative md:py-16">
+    <div className="flex items-center justify-center w-full relative ">
       <label
         htmlFor="dropzone-file"
         {...getRootProps({
-          className: `flex flex-col items-center justify-center w-full h-36 md:h-64 border-2  ${
-            isDragAccept ? "border-indigo-900 " : "border-gray-300 dark:border-white"
+          className: `flex flex-col items-center justify-center w-full h-36 border-2  ${
+            isDragAccept
+              ? "border-indigo-900 "
+              : "border-gray-300 dark:border-white"
           } transition-all duration-300    rounded-lg  cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100  bg-cover bg-no-repeat bg-center opacity-40 absolute`,
         })}
         style={{
