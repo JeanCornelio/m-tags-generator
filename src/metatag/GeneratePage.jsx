@@ -44,7 +44,7 @@ export const GeneratePage = () => {
       } = tags;
 
       let metaTags =
-        `<!-- Basic Meta Tags -->\n`+
+        `<!-- Basic Meta Tags -->\n` +
         `<meta name="title" content="${siteTitle}" />\n` +
         `<meta name="description" content="${siteDescription}" />\n` +
         `<meta name="keywords" content="${siteKeywords}" />\n` +
@@ -53,9 +53,11 @@ export const GeneratePage = () => {
         }, ${siteRobotsLinks ? "follow" : "nofollow"}" />\n` +
         `<meta http-equiv="Content-Type" content="text/html; charset=${siteTypeContent}" />\n` +
         `<meta name="language" content="${siteLanguage}" />\n` +
-        `${siteAuthor ? `<meta name="author" content="${siteAuthor}" />` : ""}\n`+
+        `${
+          siteAuthor ? `<meta name="author" content="${siteAuthor}" />` : ""
+        }\n` +
         `<!-- Meta Tags Generated with https://Mtag.com -->\n`;
-        console.log(metaTags)
+
       setMetaTags(metaTags);
     },
   });
@@ -224,9 +226,7 @@ export const GeneratePage = () => {
                 value={formik.values.siteTypeContent}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
               >
-                <option selected value="utf-8">
-                  UTF-8
-                </option>
+                <option value="utf-8">UTF-8</option>
                 <option value="utf-16">UTF-16</option>
                 <option value="iso-8859-1">ISO-8859-1</option>
                 <option value="windows-1252">WINDOWS-1252</option>
@@ -247,9 +247,7 @@ export const GeneratePage = () => {
                 value={formik.values.siteLanguage}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
               >
-                <option selected value="en">
-                  English
-                </option>
+                <option value="en">English</option>
                 <option value="es">Spanish</option>
                 <option value="pt">Portuguese</option>
                 <option value="ru">Russian</option>

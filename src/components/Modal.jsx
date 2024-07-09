@@ -1,33 +1,6 @@
-import { useEffect, useState } from "react";
-import { Button } from "./Button";
+import ButtonCopy from "./ButtonCopy";
 
-export const Modal = ({ metaTags }) => {
-  const [buttonName, setButtonName] = useState("Copy");
-  const [copied, setCopied] = useState(false);
-
-  console.log(metaTags);
-  const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(metaTags);
-      setCopied(true);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    let timer;
-    if (copied) {
-      setButtonName("Copied!");
-      timer = setTimeout(() => {
-        setButtonName("Copy");
-        setCopied(false);
-      }, 900);
-    }
-
-    return () => clearTimeout(timer);
-  }, [copied]);
-
+export const Modal = ({ metaTags, showImageMessage = false }) => {
   return (
     <>
       <div
@@ -52,18 +25,22 @@ export const Modal = ({ metaTags }) => {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <div
-              className=" flex gap-3 items-center bg-white  dark:text-white border dark:bg-gray-700 dark:border-gray-800 rounded-md p-4 mb-2
+            {showImageMessage && (
+              <div
+                className=" flex gap-3 items-center bg-white  dark:text-white border dark:bg-gray-700 dark:border-gray-800 rounded-md p-4 mb-2
     "
-            >
-              <span className="icon-[formkit--warning] text-yellow-400 text-2xl" />
-              <div>
-                <p className="uppercase font-semibold"></p>
-                <p>
-                  Warning: Be sure to upload your image to your CMS or host.
-                </p>
+              >
+                <span className="icon-[formkit--warning] text-yellow-400 text-2xl" />
+
+                <div>
+                  <p className="uppercase font-semibold"></p>
+                  <p className="text-sm md:text-base">
+                    <strong>Warning:</strong> Make sure to upload your image to
+                    your CMS or hosting service.
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
             <div className="p-4 md:p-5 space-y-4 bg-indigo-200 rounded-md overflow-auto whitespace-nowrap">
               <pre>
                 <code className="text-indigo-900">{metaTags}</code>
@@ -78,12 +55,7 @@ export const Modal = ({ metaTags }) => {
                   {"<head>"}
                 </span>
               </div>
-              <Button
-                title={buttonName}
-                icon="icon-[ph--copy-simple-light] text-2xl"
-                onClick={() => onCopy()}
-                className=" border p-4 border-indigo-600 py-1 text-sm text-indigo-600 dark:bg-slate-800 dark:border-slate-600 hover:dark:bg-indigo-600 dark:text-white hover:bg-indigo-600 hover:text-white"
-              />
+              <ButtonCopy textToCopy={metaTags} name="asdasdsd" />
             </div>
           </div>
         </div>

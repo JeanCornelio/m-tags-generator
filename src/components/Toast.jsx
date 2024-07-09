@@ -23,27 +23,27 @@ export const Toast = ({ title, description, type, isVisible, onClose }) => {
   ];
 
   useEffect(() => {
-   const value = toasClassColection.find((el) => el.type === type);
+    const value = toasClassColection.find((el) => el.type === type);
 
-   if (value && isVisible) {
-     setToastClass(value);
-     setVisible(true);
-     const timer = setTimeout(() => {
-       setVisible(false);
-       setTimeout(() => onClose(), 300); 
-     }, 5000); 
+    if (value && isVisible) {
+      setToastClass(value);
+      setVisible(true);
+      const timer = setTimeout(() => {
+        setVisible(false);
+        setTimeout(() => onClose(), 300);
+      }, 1000);
 
-     return () => clearTimeout(timer);
-   }
- }, [type, isVisible, onClose]);
+      return () => clearTimeout(timer);
+    }
+  }, [type, isVisible, onClose]);
 
   if (!isVisible) return null;
 
   return (
-   <div
-   className={`fixed flex gap-3 items-center bg-white shadow-md dark:bg-slate-900 dark:text-white dark:border dark:border-gray-800 rounded-md p-3 text-sm md:text-base md:p-5 top-[80px] mx-3 right-0 md:right-[20px] z-50 transition-opacity duration-300 ${
-     visible ? "opacity-100" : "opacity-0"
-   }`}
+    <div
+      className={`fixed flex gap-3 items-center bg-white shadow-md dark:bg-slate-900 dark:text-white dark:border dark:border-gray-800 rounded-md p-3 text-sm md:text-base md:p-5 top-10 mx-3 right-0 md:right-[20px] z-50 transition-opacity duration-300 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
     >
       <span className={toastClass.icon} />
       <div>

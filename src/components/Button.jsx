@@ -5,13 +5,11 @@ export const Button = ({ title, className, icon, onClick, type, disabled }) => {
       type={type}
       onClick={onClick}
       disabled={disabled}
-
     >
       <div className="flex items-center gap-1 justify-center">
-      {icon && <span className={icon} />}
-      {title}
+        {icon && <span className={icon} />}
+        {title}
       </div>
-     
     </button>
   );
 };

@@ -1,16 +1,18 @@
-import { useRouteError } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button } from "../components";
 
-export const ErrorPage =()=> {
-  const error = useRouteError();
-  console.error(error);
-
+export const ErrorPage = () => {
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
-      </p>
+    <div className="flex justify-center h-screen items-center flex-col gap-6 dark:text-white">
+      <h1 className="text-md md:text-9xl font-bold ">Oops!</h1>
+      <h2 className="text-md md:text-2xl "> 404 - PAGE NOT FOUND</h2>
+      <Link to="/">
+        <Button
+          title="Go to homepage"
+          icon="icon-[icon-park-outline--back]"
+          className="bg-indigo-600 p-3 md:px-10  hover:bg-indigo-700 text-white"
+        ></Button>
+      </Link>
     </div>
   );
-}
+};

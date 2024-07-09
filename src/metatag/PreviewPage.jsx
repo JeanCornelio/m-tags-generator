@@ -1,47 +1,34 @@
-import { useState } from "react";
-import { Button, Modal, Title, Dropzone, Toast } from "../components";
+import { useEffect, useState } from "react";
+import { Button, Title, Dropzone, Toast } from "../components";
 import { getSiteInformation } from "../service";
 import { useFormik } from "formik";
-import imgNotFound from "../assets/img/Image-not-found.jpg";
+import imgNotFound from "../assets/img/image-not-found.jpg";
+import imgDefault from "../assets/img/image-default-min.jpg";
+import ButtonCopy from "../components/ButtonCopy";
 
-/* 
-  TASKS
-
-  1- To Make an alert Component (Check?)
-  2- To Changes the btn names in homepage (To change the position of priority in the buttons) (Check?)
-  3- Looking for the error <select> instead
-  4- responsive of routes in header
-  5- Looking for others ways for show the information in previewPage
-
-*/
-
-const defaultTag = {
-  ogTitle: "YouTube",
+const initialTag = {
+  ogTitle: "Mtag - Generate Metatags and Preview Social Media Share",
   ogDescription:
-    "Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.",
-  ogImage: [
-    {
-      url: "https://www.youtube.com/img/desktop/yt_1200.png",
-    },
-  ],
-  requestUrl: "www.youtube.com",
+    "Mtag is the best way to generate metatags and preview of social media share for any websites.",
+  requestUrl: "www.mtag.com",
 };
 
+const initialBntParsear = { label: "Parsear", disabled: false };
+
+const initialToastConfig = { type: 1, title: "", description: "" };
 
 export const PreviewPage = () => {
-  const [link, setLink] = useState("https://www.youtube.com");
+  const [link, setLink] = useState("https://www.mtag.com");
   const [image, setImage] = useState(
-    "https://www.youtube.com/img/desktop/yt_1200.png"
+    imgDefault
   );
 
-  const [bntParsear, setBntParsear] = useState({
-    label: "Parsear",
-    disabled: false,
-  });
-  const [tagProperty, setTagProperty] = useState(defaultTag);
+  const [bntParsear, setBntParsear] = useState(initialBntParsear);
+  const [tagProperty, setTagProperty] = useState(initialTag);
   const [toastVisible, setToastVisible] = useState(false);
-  const [toastData, setToastData] = useState({ type: 1, title: "", description: "" });
+  const [toastData, setToastData] = useState(initialToastConfig);
   const [metaTags, setMetaTags] = useState("");
+
   const showToast = (type, title, description) => {
     setToastData({ type, title, description });
     setToastVisible(true);
@@ -56,18 +43,23 @@ export const PreviewPage = () => {
       setBntParsear({ label: "Loading...", disabled: true });
       let res = await getSiteInformation(link);
       if (!res.success) {
-        showToast(2, "Warning", "The page you want to find hasn't been found.")
-     
+        showToast(2, "Warning", "The page you want to find hasn't been found.");
+
         setBntParsear({ label: "Parsear", disabled: false });
       } else {
-        setTagProperty({...res, requestUrl: res.requestUrl.replace(/http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/, '')});
+        setTagProperty({
+          ...res,
+          requestUrl: res.requestUrl.replace(
+            /http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/,
+            ""
+          ),
+        });
         setTagInformation(res);
       }
     } catch (error) {
       showToast(3, "Error", "An error occurred while fetching data.");
       setBntParsear({ label: "Parsear", disabled: false });
     }
-
   };
 
   const onDropzone = (image) => {
@@ -83,8 +75,8 @@ export const PreviewPage = () => {
     const { ogTitle, ogDescription, ogImage } = res;
 
     formik.setValues({
-      siteTitle: ogTitle  ||  "",
-      siteDescription: ogDescription  || "",
+      siteTitle: ogTitle || "",
+      siteDescription: ogDescription || "",
     });
 
     const img = ogImage ? ogImage[0].url : imgNotFound;
@@ -98,49 +90,47 @@ export const PreviewPage = () => {
       siteTitle: tagProperty.ogTitle,
       siteDescription: tagProperty.ogDescription,
     },
-    onSubmit: (values) => {
-     
- 
-      console.log(values)
-     let metaTags =
-        `<!-- Primary Meta Tags -->\n`+
-        `<title> ${values.siteTitle} </title>\n`+
-        `<meta name="title" content="${values.siteTitle}" />\n`+
-        `<meta name="description" content="${values.siteDescription}" />\n`+
-        `\n`+
-        `<!-- Open Graph / Facebook -->\n`+
-        `<meta property="og:type" content="website" />\n`+
-        `<meta property="og:url" content="${link}" />\n`+
-        `<meta property="og:title" content="${values.siteTitle}" />\n`+
-        `<meta property="og:description" content="${values.siteDescription}" />\n`+
-        `<meta property="og:image" content="https://your-image.com/image" />\n` +
-        `\n`+
-        `<!-- Open Graph / Twitter -->\n`+
-        `<meta property="twitter:card" content="summary_large_image" />\n`+
-        `<meta property="twitter:url" content="${link}"  />\n`+
-        `<meta property="twitter:title" content="${values.siteTitle}" />\n`+
-        `<meta property="twitter:description" content="${values.siteDescription} />\n`+
-        `<meta property="twitter:image" content="https://your-image.com/image" />\n`+
-        `\n`+
-        `<!-- Meta Tags Generated with https://Mtag.com -->\n`;
-        console.log(metaTags)
-        setMetaTags(metaTags);
-    },
+    onSubmit: () => {},
   });
+  useEffect(() => {
+    let metaTags =
+      `<!-- Primary Meta Tags -->\n` +
+      `<title> ${formik.values.siteTitle} </title>\n` +
+      `<meta name="title" content="${formik.values.siteTitle}" />\n` +
+      `<meta name="description" content="${formik.values.siteDescription}" />\n` +
+      `\n` +
+      `<!-- Open Graph / Facebook -->\n` +
+      `<meta property="og:type" content="website" />\n` +
+      `<meta property="og:url" content="${link}" />\n` +
+      `<meta property="og:title" content="${formik.values.siteTitle}" />\n` +
+      `<meta property="og:description" content="${formik.values.siteDescription}" />\n` +
+      `<meta property="og:image" content="https://your-image.com/image" />\n` +
+      `\n` +
+      `<!-- Open Graph / Twitter -->\n` +
+      `<meta property="twitter:card" content="summary_large_image" />\n` +
+      `<meta property="twitter:url" content="${link}"  />\n` +
+      `<meta property="twitter:title" content="${formik.values.siteTitle}" />\n` +
+      `<meta property="twitter:description" content="${formik.values.siteDescription}" />\n` +
+      `<meta property="twitter:image" content="https://your-image.com/image" />\n` +
+      `\n` +
+      `<!-- Meta Tags Generated with https://Mtag.com -->\n`;
+
+    setMetaTags(metaTags);
+  }, [formik.values.siteTitle, formik.values.siteDescription, link]);
 
   return (
     <div className="py-20 md:py-5">
       <Title
-        title="Preview"
-        subtitle="You can experment with your content preview"
+        title="Open Graph Meta Tags"
+        subtitle="You can experiment with your content meta tags"
       />
-      <article className="flex flex-col lg:flex-row gap-10 relative ">
-        <section className="w-full lg:w-2/6   ">
-          <div className="flex flex-col gap-3 sticky top-0 ">
+      <article className=" flex flex-wrap gap-4 relative ">
+        <section className="flex-none w-full   xl:w-[40%]    bg-white dark:bg-slate-900 ">
+          <div className="flex flex-col gap-3 sticky top-4 p-5 mb-4   rounded-2xl border dark:border-gray-600">
             <form onSubmit={(e) => submit(e)}>
-              <h2 className="mb-8 lg:mt-4 font-semibold  text-gray-600 dark:text-white">
-                {" "}
-                Meta Data
+              <h2 className="mb-8 font-bold  text-indigo-600 dark:text-white flex gap-2 items-center">
+                <span className="icon-[lets-icons--filter] text-indigo-900 text-1xl md:text-xl dark:text-white" />
+                Search / Edit Meta Tag
               </h2>
               <label
                 htmlFor="default-search"
@@ -149,7 +139,7 @@ export const PreviewPage = () => {
                 Parse Data
               </label>
               <div className=" grid grid-cols-1 lg:grid-cols-3 gap-2">
-                <div className="relative col-span-3 lg:col-span-2">
+                <div className="relative col-span-3 lg:col-span-12">
                   <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                     <svg
                       className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -176,7 +166,7 @@ export const PreviewPage = () => {
                     placeholder="Search and parse meta data"
                   />
                 </div>
-                <div className="col-span-3 lg:col-span-1">
+                <div className="col-span-3 lg:col-span-12">
                   <Button
                     type="submit"
                     title={bntParsear.label}
@@ -190,7 +180,10 @@ export const PreviewPage = () => {
                 </div>
               </div>
             </form>
-            <form className="flex flex-col gap-3" onSubmit={formik.handleSubmit} >
+            <form
+              className="flex flex-col gap-3"
+              onSubmit={formik.handleSubmit}
+            >
               <Dropzone onDropzone={onDropzone} img={image} />
               <div>
                 <label
@@ -222,168 +215,305 @@ export const PreviewPage = () => {
                   value={formik.values.siteDescription}
                   onChange={formik.handleChange}
                   name="siteDescription"
-                  rows="4"
+                  rows="3"
                   placeholder="Your site description"
                   className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                 ></textarea>
               </div>
-              <div className="col-span-2 md:col-span-2">
-                <button
-                  data-modal-target="default-modal"
-                  data-modal-toggle="default-modal"
-                  type="submit"
-                  className="p-3 w-full rounded-md cursor-pointer text-md font-semibold bg-indigo-600 enabled:hover:bg-indigo-700 text-white mt-3 disabled:opacity-75 disabled:cursor-not-allowed"
-                >
-                  <div className="flex items-center gap-1 justify-center">
-                    <span className="icon-[grommet-icons--code] text-2xl" />{" "}
-                    Generate Code
-                  </div>
-                </button>
-              </div>
             </form>
           </div>
-        </section>
+          <div className="flex flex-col gap-3 sticky top-4 p-5   border dark:border-gray-600 rounded-2xl bg-white dark:bg-slate-900">
+            <h2 className="mb-3  font-bold  text-indigo-600 dark:text-white flex gap-2 items-center">
+              <span className="icon-[carbon--code] text-indigo-900 text-1xl md:text-xl dark:text-white" />
+              Yours Meta Tags
+            </h2>
+            <div
+              className=" flex gap-3 items-center bg-white  dark:text-white border dark:bg-gray-700 dark:border-gray-800 rounded-md p-4 
+    "
+            >
+              <span className="icon-[formkit--warning] text-yellow-400 text-2xl" />
 
-        <section className="w-full md:w-4/6 ">
-          <h2 className="mb-8 lg:mt-4 font-semibold  text-gray-600 dark:text-white">
-            Preview
-          </h2>
-          <div className="flex flex-col gap-y-10  dark:text-[#bdc1c6] text-[#4d5156]">
-            <div className="font-google">
-              <h3 className="font-semibold text-indigo-400 mb-3">Google</h3>
-              <article className="w-full md:w-4/5 group">
-                <header className="flex gap-3 items-center mb-3 cursor-pointer group ">
-                  <div
-                    className="h-8 w-8 bg-gray-200 rounded-full   bg-no-repeat bg-center "
-                    style={{
-                      backgroundImage: `url(${tagProperty.favicon})`,
-                    }}
-                  ></div>
-                  <div>
-                    <span className="text-[14px] block ">
-                      {tagProperty.requestUrl}
-                    </span>{" "}
-                    {/* Link */}
-                    <div className="flex items-center gap-2">
-                      <span className="text-[12px] block ">{link}</span>{" "}
-                      {/* Link literal */}
-                      <span className="icon-[material-symbols--more-vert] text-gray-500"></span>
-                    </div>
-                  </div>
-                </header>
-                <h3 className=" text-[#99c3ff] hover:underline underline-offset-1 cursor-pointer text-[20px] inline-block ">
+              <div>
+                <p className="uppercase font-semibold"></p>
+                <p className="text-sm md:text-base">
+                  <strong>Warning:</strong> Make sure to upload your image to
+                  your CMS or hosting service.
+                </p>
+              </div>
+            </div>
+            <div className="p-4 md:p-5 space-y-4 bg-indigo-300 rounded-md overflow-auto whitespace-nowrap ">
+              <code className="text-dark-900">
+                <p className="text-indigo-900 font-semibold ">
+                  {"<!-- Primary Meta Tags -->"}
+                </p>
+
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">title</span>
+                  {">"}
                   {formik.values.siteTitle}
-                </h3>{" "}
-                {/* Title */}
-                <p className="leading-[1.58] text-[14px] ">
-                  {formik.values.siteDescription}
+                  {"</"}
+                  <span className="text-indigo-900 font-bold">title</span>
+                  {">"}
                 </p>
-                {/* description */}
-              </article>
-            </div>
-
-            <div className="  h-[370px]">
-              <h3 className="font-semibold text-indigo-400 mb-3">Facebook</h3>
-              <article className=" w-full md:w-[500px] group relative hover:opacity-90">
-                <header
-                  className="w-full md:w-[500px] h-[261px]  md:rounded-md bg-cover bg-no-repeat bg-center border dark:border-gray-800"
-                  style={{
-                    backgroundImage: `url(${image})`,
-                  }}
-                ></header>
-                <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.2rem] bg-white dark:bg-slate-900 dark:border-gray-800 h-[77px] w-full">
-                  <span className=" block uppercase text-[#b0b3b8] text-[.7800rem] ">
-                    {formik.values.siteTitle}
-                  </span>{" "}
-                  {/* Link */}
-                  <h3 className="text[1.0625rem] font-semibold leading-[1.1] mt-1 truncate">
-                    {formik.values.siteDescription}
-                  </h3>{" "}
-                  {/* Title */}
-                </footer>
-              </article>
-            </div>
-            <div className=" h-[320px]">
-              <h3 className="font-semibold text-indigo-400 mb-3">Twitter</h3>
-              <article className=" w-full md:w-[500px]  relative ">
-                <header
-                  className="w-full md:w-[500px] h-[261px]  rounded-2xl   bg-cover bg-no-repeat bg-center border dark:border-gray-800"
-                  style={{
-                    backgroundImage: `url(${image})`,
-                  }}
-                ></header>
-                <footer>
-                  <span className="text-gray-500 text-[13px]">
-                    De {tagProperty.requestUrl}
-                  </span>
-                </footer>
-
-                <p className="truncate text-white  bg-black opacity-[0.80] rounded text-[13px]  px-1 pb-0.5 h-[23px]  absolute bottom-[2.3rem] left-[12px] max-w-[95%]">
-                  {formik.values.siteDescription}
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  name=&quot;title&quot; content=&quot;{formik.values.siteTitle}
+                  &quot;{" />"}
                 </p>
-              </article>
-            </div>
-            <div className="">
-              <h3 className="font-semibold text-indigo-400 mb-3">Linkedin</h3>
-              <article className="  w-full  xl:w-[700px] flex gap-2 border px-4 py-3 md:rounded-xl bg-[#edf3f8]  items-center">
-                <div
-                  className="w-[128px] h-[72px]   bg-cover bg-no-repeat bg-center rounded-md"
-                  style={{
-                    backgroundImage: `url(${image})`,
-                  }}
-                ></div>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  name=&quot;description&quot; content=&quot;
+                  {formik.values.siteDescription}&quot;{" />"}
+                </p>
 
-                <footer className="flex flex-col gap-2 w-full">
-                  <p className="text-sm text-gray-600  font-bold cursor-pointer truncate max-w-[80%] ">
-                    {formik.values.siteTitle}
-                  </p>
-                  <span className="text-gray-500 text-[12px] cursor-pointer ">
-                    {tagProperty.requestUrl}
-                  </span>
-                </footer>
-              </article>
+                <p className="text-indigo-900 font-semibold mt-2">
+                  {"<!-- Open Graph / Facebook -->"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;og:type&quot; content=&quot;website&quot;
+                  {" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;og:url&quot; content=&quot;{link}&quot;{" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;og:title&quot; content=&quot;
+                  {formik.values.siteTitle}&quot;{" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;og:description&quot; content=&quot;
+                  {formik.values.siteDescription}&quot;{" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;og:image&quot;
+                  content=&quot;https://your-image.com/image&quot;{" />"}
+                </p>
+
+                <p className="text-indigo-900 font-semibold mt-2">
+                  {"<!-- Open Graph / Twitter -->"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;twitter:card&quot;
+                  content=&quot;summary_large_image&quot;{" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;twitter:url&quot; content=&quot;{link}&quot;
+                  {" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;twitter:title&quot; content=&quot;
+                  {formik.values.siteTitle}&quot;{" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;twitter:description&quot; content=&quot;
+                  {formik.values.siteDescription}&quot;{" />"}
+                </p>
+                <p>
+                  {"<"}
+                  <span className="text-indigo-900 font-bold">meta</span>{" "}
+                  property=&quot;twitter:image&quot;
+                  content=&quot;https://your-image.com/image&quot;{" />"}
+                </p>
+
+                <p className="text-indigo-900 font-semibold mt-2">
+                  {"<!-- Meta Tags Generated with https://Mtag.com -->"}
+                </p>
+              </code>
             </div>
-            <div className="">
-              <h3 className="font-semibold text-indigo-400 mb-3">Slack</h3>
-              <article className="  w-full  xl:w-[550px] flex flex-row-reverse gap-3 justify-end">
-                <div>
-                  <header className="flex flex-col mb-2 ">
-                    <div className="flex gap-2 items-center">
-                      <div
-                        className="bg-gray-300 h-[16px] w-[16px] rounded-sm bg-no-repeat bg-center "
-                        style={{
-                          backgroundImage: `url(${tagProperty.favicon})`,
-                        }}
-                      ></div>
-                      <span className="font-bold dark:text-[#D1D2D3]">
+            <div className=" mt-3 border-t  border-gray-200 rounded-b dark:border-gray-600">
+              <div className=" flex items-center justify-between mt-3">
+                <span className="text-dark  dark:text-white">
+                  Copy the code into your website
+                  <span className="text-indigo-800  font-semibold dark:text-indigo-400">
+                    {"<head>"}
+                  </span>
+                </span>
+
+                <ButtonCopy textToCopy={metaTags} />
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="flex-1 w-full xl:w-[50%]   bg-white dark:bg-slate-900">
+          <div className=" gap-3 sticky top-4 p-5   rounded-2xl border dark:border-gray-600">
+            <h2 className="mb-8  font-bold  text-indigo-600 dark:text-white flex gap-2 items-center">
+              <span className="icon-[tdesign--card] text-indigo-900 text-1xl md:text-xl dark:text-white" />
+              Preview
+            </h2>
+            <div className="flex flex-col gap-y-10  dark:text-[#bdc1c6] text-[#4d5156]">
+              <div className="font-google">
+                <h3 className="font-semibold text-indigo-400 mb-3">Google</h3>
+                <article className="w-full group">
+                  <header className="flex gap-3 items-center mb-3 cursor-pointer group ">
+                    <div
+                      className="h-8 w-8 bg-gray-200 rounded-full   bg-no-repeat bg-center "
+                      style={{
+                        backgroundImage: `url(${tagProperty.favicon})`,
+                      }}
+                    ></div>
+                    <div>
+                      <span className="text-[14px] block ">
                         {tagProperty.requestUrl}
                       </span>
+
+                      <div className="flex items-center gap-2">
+                        <span className="text-[12px] block ">{link}</span>
+
+                        <span className="icon-[material-symbols--more-vert] text-gray-500"></span>
+                      </div>
                     </div>
-                    <p className=" text-[#1D9BD1] font-bold cursor-pointer hover:underline underline-offset-1  leading-[1.46667rem]">
-                      {formik.values.siteTitle}
-                    </p>
-                    <p className=" text-gray-600 dark:text-[#D1D2D3]  leading-[1.46667rem]">
-                      {formik.values.siteDescription}
-                    </p>
                   </header>
-                  <div
-                    className="w-full sm:w-[360px] h-[180px] bg-cover bg-no-repeat bg-center rounded-[8px] cursor-zoom-in border dark:border-gray-800 "
+                  <h3 className=" text-[#99c3ff] hover:underline underline-offset-1 cursor-pointer text-[20px] inline-block ">
+                    {formik.values.siteTitle}
+                  </h3>
+
+                  <p className="leading-[1.58] text-[14px] ">
+                    {formik.values.siteDescription}
+                  </p>
+                </article>
+              </div>
+
+              <div className="  h-[370px]">
+                <h3 className="font-semibold text-indigo-400 mb-3">Facebook</h3>
+                <article className=" w-full  group relative hover:opacity-90 md:w-[500px]">
+                  <header
+                    className="w-full md:w-[500px] h-[261px]  md:rounded-md bg-cover bg-no-repeat bg-center border dark:border-gray-800"
                     style={{
                       backgroundImage: `url(${image})`,
                     }}
-                  ></div>
-                </div>
+                  ></header>
+                  <footer className="border border-gray-200 py-2 px-4 md:rounded-bl-md md:rounded-br-md absolute -bottom-[4.2rem] bg-white dark:bg-slate-900 dark:border-gray-800 h-[77px] w-full">
+                    <span className=" block uppercase text-[#b0b3b8] text-[.7800rem] ">
+                      {formik.values.siteTitle}
+                    </span>
 
-                <div className=" dark:border-[#35373B] border border-x-[2.3px]  rounded-md">
-                  {" "}
-                </div>
-              </article>
+                    <h3 className="text[1.0625rem] font-semibold leading-[1.1] mt-1 truncate">
+                      {formik.values.siteDescription}
+                    </h3>
+                  </footer>
+                </article>
+              </div>
+              <div className=" h-[320px]">
+                <h3 className="font-semibold text-indigo-400 mb-3">Twitter</h3>
+                <article className=" w-full md:w-[500px]  relative ">
+                  <header
+                    className="w-full h-[261px]  rounded-2xl   bg-cover bg-no-repeat bg-center border dark:border-gray-800"
+                    style={{
+                      backgroundImage: `url(${image})`,
+                    }}
+                  ></header>
+                  <footer>
+                    <span className="text-gray-500 text-[13px]">
+                      De {tagProperty.requestUrl}
+                    </span>
+                  </footer>
+
+                  <p className="truncate text-white  bg-black opacity-[0.80] rounded text-[13px]  px-1 pb-0.5 h-[23px]  absolute bottom-[2.3rem] left-[12px] max-w-[95%]">
+                    {formik.values.siteDescription}
+                  </p>
+                </article>
+              </div>
+              <div className="">
+                <h3 className="font-semibold text-indigo-400 mb-3">Linkedin</h3>
+                <article className="  w-full  xl:w-[700px] flex gap-2 border px-4 py-3 md:rounded-xl bg-[#edf3f8]  items-center">
+                  <img
+                    className="w-[120px] h-[72px] rounded-md"
+                    src={image}
+                    alt=""
+                  />
+
+                  <footer className="flex flex-col gap-2 w-full">
+                    <p className="text-sm text-gray-600  font-bold cursor-pointer  ">
+                      {formik.values.siteTitle}
+                    </p>
+                    <span className="text-gray-500 text-[12px] cursor-pointer ">
+                      {tagProperty.requestUrl}
+                    </span>
+                  </footer>
+                </article>
+              </div>
+              <div>
+                <h3 className="font-semibold  text-indigo-400 mb-3">Discord</h3>
+                <article className=" bg-[#2f3136] rounded-md w-full  xl:w-[450px]  flex flex-row-reverse gap-3 justify-end">
+                  <div>
+                    <header className="flex flex-col gap-3 my-2 ">
+                      <p className=" text-[#1D9BD1] font-bold cursor-pointer hover:underline underline-offset-1  leading-[1.46667rem]">
+                        {formik.values.siteTitle}
+                      </p>
+                      <p className=" text-[#D1D2D3] text-sm   leading-[1.46667rem]">
+                        {formik.values.siteDescription}
+                      </p>
+                    </header>
+                    <div
+                      className="w-full md:w-[420px] mb-3 h-[220px] bg-cover bg-no-repeat bg-center rounded-[8px] cursor-zoom-in border dark:border-gray-800 "
+                      style={{
+                        backgroundImage: `url(${image})`,
+                      }}
+                    ></div>
+                  </div>
+                  <div className=" border-[#202225] border border-x-[2.3px] rounded-l-md "></div>
+                </article>
+              </div>
+              <div className="">
+                <h3 className="font-semibold text-indigo-400 mb-3">Slack</h3>
+                <article className="w-full  xl:w-[550px]  flex flex-row-reverse gap-3 justify-end">
+                  <div>
+                    <header className="flex flex-col mb-2 ">
+                      <div className="flex gap-2 items-center">
+                        <div
+                          className="bg-gray-300 h-[16px] w-[16px] rounded-sm bg-no-repeat bg-center "
+                          style={{
+                            backgroundImage: `url(${tagProperty.favicon})`,
+                          }}
+                        ></div>
+                        <span className="font-bold dark:text-[#D1D2D3]">
+                          {tagProperty.requestUrl}
+                        </span>
+                      </div>
+                      <p className=" text-[#1D9BD1] font-bold cursor-pointer hover:underline underline-offset-1  leading-[1.46667rem]">
+                        {formik.values.siteTitle}
+                      </p>
+                      <p className=" text-gray-600 dark:text-[#D1D2D3]  leading-[1.46667rem]">
+                        {formik.values.siteDescription}
+                      </p>
+                    </header>
+                    <div
+                      className="w-full md:w-[320px]  h-[180px] bg-cover bg-no-repeat bg-center rounded-[8px] cursor-zoom-in border dark:border-gray-800 "
+                      style={{
+                        backgroundImage: `url(${image})`,
+                      }}
+                    ></div>
+                  </div>
+
+                  <div className=" dark:border-[#35373B] border border-x-[2.3px]  rounded-md"></div>
+                </article>
+              </div>
             </div>
           </div>
         </section>
       </article>
-      <Modal metaTags={metaTags} />
-     
+
       <Toast
         type={toastData.type}
         title={toastData.title}
@@ -391,7 +521,6 @@ export const PreviewPage = () => {
         isVisible={toastVisible}
         onClose={handleCloseToast}
       />
-      
     </div>
   );
 };
