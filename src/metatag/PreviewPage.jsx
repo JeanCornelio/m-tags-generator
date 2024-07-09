@@ -440,7 +440,7 @@ export const PreviewPage = () => {
                   <img
                     className="w-[120px] h-[72px] rounded-md"
                     src={image}
-                    alt=""
+                    alt="Linkedin Image"
                   />
 
                   <footer className="flex flex-col gap-2 w-full">
