@@ -4,7 +4,7 @@ export const Dropzone = ({ onDropzone, img }) => {
   const onDrop = (acceptedFiles) => {
     convertBase64(acceptedFiles);
   };
-  const { getRootProps, getInputProps, isDragAccept } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragAccept, open } = useDropzone({ onDrop, noClick: true });
 
   const convertBase64 = (document) => {
     let reader = new FileReader();
@@ -28,6 +28,7 @@ export const Dropzone = ({ onDropzone, img }) => {
               : "border-gray-300 dark:border-white"
           } transition-all duration-300    rounded-lg  cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100  bg-cover bg-no-repeat bg-center opacity-40 absolute`,
         })}
+        onClick={open} 
         style={{
           backgroundImage: `url(${img})`,
         }}
