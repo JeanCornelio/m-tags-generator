@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../assets/img/logo.png";
+
 import { useState } from "react";
 
 const initialTheme =
@@ -32,7 +32,7 @@ export const Nav = () => {
     <nav className="fixed md:static border-b border-gray-200 dark:border-gray-800 z-40 bg-white dark:bg-slate-900 w-full box-border h-16 flex justify-center">
       <div className="container flex justify-between text-xl px-7">
         <Link to="/" className="flex gap-1 items-center my-4">
-          <img src={logo} alt="Logo MTag" className="h-[20px]  md:h-[33px]" />
+          <img src={"/static/images/logo.png"} alt="Logo MTag" className="h-[20px]  md:h-[33px]" />
         </Link>
         <div className="flex items-center gap-5">
           <ul className="flex gap-3 text-base text-slate-700 font-medium dark:text-white">
