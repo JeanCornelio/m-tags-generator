@@ -6,11 +6,6 @@ Meta Tags Generator is a web tool that allows you to easily and quickly generate
 - [Description](#description)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Contribution](#contribution)
-- [License](#license)
 
 ## Description
 Meta Tags Generator is an application that simplifies the creation of meta tags for web pages. Using a user-friendly interface, users can enter the necessary information and generate meta tags that can be directly added to their website's HTML code.
@@ -25,4 +20,5 @@ Meta Tags Generator is an application that simplifies the creation of meta tags 
 - **React**: JavaScript library for building user interfaces.
 - **Tailwind CSS**: CSS framework for design and styling.
 - **React Router**: For navigation and routing within the application.
-- **Formik**: For handling forms in React.
+- **JavaScript**: For coding.
+- **Node**: For scraping.
