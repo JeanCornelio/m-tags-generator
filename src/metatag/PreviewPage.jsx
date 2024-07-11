@@ -454,8 +454,8 @@ export const PreviewPage = () => {
               <div>
                 <h3 className="font-semibold  text-indigo-400 mb-3">Discord</h3>
                 <article className=" bg-[#2f3136] rounded-md w-full  xl:w-[450px]  flex flex-row-reverse gap-3 justify-end">
-                  <div className="pe-4">
-                    <header className="flex flex-col gap-3 my-2 ">
+                  <div className="pe-4 w-full">
+                    <header className="flex flex-col gap-3 my-2  ">
                       <p className=" text-[#1D9BD1] font-bold cursor-pointer hover:underline underline-offset-1  leading-[1.46667rem]">
                         {formik.values.siteTitle}
                       </p>
@@ -469,7 +469,6 @@ export const PreviewPage = () => {
                         backgroundImage: `url(${image})`,
                       }}
                     ></div>
-                   {/*  <img src={image} className="md:w-[420px] mb-3 h-auto  rounded-[8px]" alt="Discord example card" /> */}
                   </div>
                   <div className=" border-[#202225] border border-x-[2.3px] rounded-l-md "></div>
                 </article>
