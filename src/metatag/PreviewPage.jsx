@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Button, Title, Dropzone, Toast } from "../components";
 import { getSiteInformation } from "../service";
 import { useFormik } from "formik";
-import imgNotFound from "../assets/img/image-not-found.jpg";
-import imgDefault from "../assets/img/image-default-min.jpg";
 import ButtonCopy from "../components/ButtonCopy";
 
 const initialTag = {
@@ -20,7 +18,7 @@ const initialToastConfig = { type: 1, title: "", description: "" };
 export const PreviewPage = () => {
   const [link, setLink] = useState("https://www.mtag.com");
   const [image, setImage] = useState(
-    imgDefault
+    "/static/images/image-default-min.jpg"
   );
 
   const [bntParsear, setBntParsear] = useState(initialBntParsear);
@@ -79,7 +77,7 @@ export const PreviewPage = () => {
       siteDescription: ogDescription || "",
     });
 
-    const img = ogImage ? ogImage[0].url : imgNotFound;
+    const img = ogImage ? ogImage[0].url : "/static/images/image-default-min.jpg";
 
     setImage(img);
     setBntParsear({ label: "Parsear", disabled: false });
