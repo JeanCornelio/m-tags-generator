@@ -476,7 +476,7 @@ export const PreviewPage = () => {
               <div className="">
                 <h3 className="font-semibold text-indigo-400 mb-3">Slack</h3>
                 <article className="w-full  xl:w-[550px]  flex flex-row-reverse gap-3 justify-end">
-                  <div>
+                  <div className="w-full" >
                     <header className="flex flex-col mb-2 ">
                       <div className="flex gap-2 items-center">
                         <div
