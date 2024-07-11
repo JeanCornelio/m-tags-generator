@@ -18,7 +18,7 @@ const initialToastConfig = { type: 1, title: "", description: "" };
 export const PreviewPage = () => {
   const [link, setLink] = useState("https://www.mtag.com");
   const [image, setImage] = useState(
-    "/static/images/image-default-min.jpg"
+    "https://i.postimg.cc/qRTT9t5K/image-default-min.jpg"
   );
 
   const [bntParsear, setBntParsear] = useState(initialBntParsear);
@@ -77,7 +77,7 @@ export const PreviewPage = () => {
       siteDescription: ogDescription || "",
     });
 
-    const img = ogImage ? ogImage[0].url : "/static/images/image-default-min.jpg";
+    const img = ogImage ? ogImage[0].url : "/static/images/image-not-found.jpg";
 
     setImage(img);
     setBntParsear({ label: "Parsear", disabled: false });
