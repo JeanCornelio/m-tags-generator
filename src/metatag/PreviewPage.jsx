@@ -413,7 +413,7 @@ export const PreviewPage = () => {
                 </article>
               </div>
               <div className=" h-[320px]">
-                <h3 className="font-semibold text-indigo-400 mb-3">Twitter</h3>
+                <h3 className="font-semibold text-indigo-400 mb-3">Twitter / X</h3>
                 <article className=" w-full md:w-[500px]  relative ">
                   <header
                     className="w-full h-[261px]  rounded-2xl   bg-cover bg-no-repeat bg-center border dark:border-gray-800"
@@ -427,7 +427,7 @@ export const PreviewPage = () => {
                     </span>
                   </footer>
 
-                  <p className="truncate text-white  bg-black opacity-[0.80] rounded text-[13px]  px-1 pb-0.5 h-[23px]  absolute bottom-[2.3rem] left-[12px] max-w-[95%]">
+                  <p className="truncate text-white  bg-black opacity-[0.80] rounded text-[13px]  p-1  h-[23px]  absolute bottom-[2.3rem] left-[12px] max-w-[95%]">
                     {formik.values.siteDescription}
                   </p>
                 </article>
