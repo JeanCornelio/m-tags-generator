@@ -8,7 +8,7 @@ const initialTag = {
   ogTitle: "Mtag - Generate Metatags and Preview Social Media Share",
   ogDescription:
     "Mtag is the best way to generate metatags and preview of social media share for any websites.",
-  requestUrl: "www.mtag.com",
+  requestUrl: "https://m-tags-generator.vercel.app",
 };
 
 const initialBntParsear = { label: "Parsear", disabled: false };
@@ -16,7 +16,7 @@ const initialBntParsear = { label: "Parsear", disabled: false };
 const initialToastConfig = { type: 1, title: "", description: "" };
 
 export const PreviewPage = () => {
-  const [link, setLink] = useState("https://www.mtag.com");
+  const [link, setLink] = useState("https://m-tags-generator.vercel.app");
   const [image, setImage] = useState(
     "https://i.postimg.cc/qRTT9t5K/image-default-min.jpg"
   );
