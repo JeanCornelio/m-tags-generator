@@ -111,7 +111,7 @@ export const PreviewPage = () => {
       `<meta property="twitter:description" content="${formik.values.siteDescription}" />\n` +
       `<meta property="twitter:image" content="https://your-image.com/image" />\n` +
       `\n` +
-      `<!-- Meta Tags Generated with https://m-tags-generator.vercel.app/ -->\n`;
+      `<!-- Meta Tags Generated with https://m-tags-generator.vercel.app -->\n`;
 
     setMetaTags(metaTags);
   }, [formik.values.siteTitle, formik.values.siteDescription, link]);
@@ -335,7 +335,7 @@ export const PreviewPage = () => {
                 </p>
 
                 <p className="text-indigo-900 font-semibold mt-2">
-                  {"<!-- Meta Tags Generated with https://Mtag.com -->"}
+                  {"<!-- Meta Tags Generated with https://m-tags-generator.vercel.app -->"}
                 </p>
               </code>
             </div>
