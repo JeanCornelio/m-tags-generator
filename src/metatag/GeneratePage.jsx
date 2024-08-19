@@ -56,7 +56,7 @@ export const GeneratePage = () => {
         `${
           siteAuthor ? `<meta name="author" content="${siteAuthor}" />` : ""
         }\n` +
-        `<!-- Meta Tags Generated with https://Mtag.com -->\n`;
+        `<!-- Meta Tags Generated with https://m-tags-generator.vercel.app -->\n`;
 
       setMetaTags(metaTags);
     },
