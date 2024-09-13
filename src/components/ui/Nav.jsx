@@ -53,8 +53,8 @@ export const Nav = () => {
             <span
               className={`${
                 darkMode
-                  ? "icon-[material-symbols--sunny-outline-rounded]"
-                  : "icon-[tdesign--mode-dark]"
+                  ? "icon-[tdesign--mode-dark]"
+                  : "icon-[material-symbols--sunny-outline-rounded]"
               } bg-slate-700 text-1xl dark:bg-slate-200`}
             />
           </button>
